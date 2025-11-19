@@ -171,7 +171,7 @@ class Interpreter:
             error = True
             return None
         set_value = self.pop_value()[1]
-        self.set_value(var.value_stack_index, name, set_value)
+        self.set_value(var.value_stack_index, value_type, set_value)
         if error:
             return None
         else:
