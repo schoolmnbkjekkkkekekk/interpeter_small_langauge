@@ -96,7 +96,7 @@ class Interpreter:
                         self.dec_variable(line[1] , line[2] , line[4:])
                     elif line.startswith("set"):
                         line = line.split()
-                        if line[2] != "=":
+                        if line[3] != "=":
                             self.send_error()
                             break
                         check = self.set_variable(line[1],line[2], line[4:])
@@ -143,6 +143,7 @@ class Interpreter:
         check = self.solve_expression(value)
         if check is None:
             self.send_error()
+            return None
         self.variables.append(var)
         self.variable_names_to_id[name] = var.var_id
         value = self.pop_value()
@@ -164,9 +165,11 @@ class Interpreter:
         var: Variable = self.get_variable(value_type,name)
         if var is None:
             error = True
+            return None
         check = self.solve_expression(expression)
         if check is None:
             error = True
+            return None
         set_value = self.pop_value()[1]
         self.set_value(var.value_stack_index, name, set_value)
         if error:
@@ -180,6 +183,7 @@ class Interpreter:
         check = self.solve_expression(expression)
         if check is None:
             error = True
+            return None
         if error:
             return None
         else:
@@ -202,6 +206,7 @@ class Interpreter:
                     self.push_value("int" , var_value)
                 else:
                     error = True
+                    return None
         else:
             for value in expression:
                 if value in possible_opperators:
@@ -275,6 +280,8 @@ class Interpreter:
         index = 0
         for index,i in enumerate(opp_stack):
             if i == "*" or i == "/":
+                break
+            elif not ("*" in opp_stack or "/" in opp_stack) and not None:
                 break
         return index
         
