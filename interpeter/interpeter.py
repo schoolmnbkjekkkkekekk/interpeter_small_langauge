@@ -281,7 +281,9 @@ class Interpreter:
         for index,i in enumerate(opp_stack):
             if i == "*" or i == "/":
                 break
-            elif not ("*" in opp_stack or "/" in opp_stack) and not None:
+            elif not ("*" in opp_stack or "/" in opp_stack):
+                if i is None:
+                    continue
                 break
         return index
         
